@@ -3,18 +3,23 @@ import { Button, Container, Typography, Box, List, ListItem, ListItemText } from
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-// Configurer axios avec l'URL de l'API
-axios.defaults.baseURL = "http://fauques.freeboxos.fr:3000/";
-
 function Lobby() {
   const [matches, setMatches] = useState([]);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
     const fetchMatches = async () => {
       try {
-        const response = await axios.get("/matches");
+        const response = await axios.get("/matches", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setMatches(response.data || []);
       } catch (err) {
         setError("Could not load matches.");
@@ -22,15 +27,25 @@ function Lobby() {
     };
 
     fetchMatches();
-  }, []);
+  }, [navigate]);
 
   const handleCreateMatch = async () => {
     try {
-      const response = await axios.post("/matches");
-      navigate(`/play/${response.data.matchId}`);
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "/matches",
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      navigate(`/play/${response.data._id}`);
     } catch (err) {
       setError("Could not create match.");
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
   };
 
   return (
@@ -47,11 +62,11 @@ function Lobby() {
         <List>
           {matches.map((match) => (
             <ListItem
-              key={match.id}
+              key={match._id}
               button
-              onClick={() => navigate(`/play/${match.id}`)}
+              onClick={() => navigate(`/play/${match._id}`)}
             >
-              <ListItemText primary={`Match ID: ${match.id}`} />
+              <ListItemText primary={`Match ID: ${match._id}`} />
             </ListItem>
           ))}
         </List>
@@ -63,6 +78,15 @@ function Lobby() {
           onClick={handleCreateMatch}
         >
           Create New Match
+        </Button>
+        <Button
+          fullWidth
+          variant="outlined"
+          color="secondary"
+          sx={{ mt: 2 }}
+          onClick={handleLogout}
+        >
+          Logout
         </Button>
       </Box>
     </Container>
