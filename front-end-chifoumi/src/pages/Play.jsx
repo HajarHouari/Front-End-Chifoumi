@@ -3,18 +3,20 @@ import { useParams } from "react-router-dom";
 import { Button, Container, Typography, Box } from "@mui/material";
 import axios from "axios";
 
-// Configurer axios avec l'URL de l'API
-axios.defaults.baseURL = "http://fauques.freeboxos.fr:3000";
-
 function Play() {
   const { matchId } = useParams();
   const [gameState, setGameState] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
     const fetchGameState = async () => {
       try {
-        const response = await axios.get(`/matches/${matchId}`);
+        const response = await axios.get(`/matches/${matchId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setGameState(response.data);
       } catch (err) {
         setError("Could not load game state.");
@@ -22,11 +24,29 @@ function Play() {
     };
 
     fetchGameState();
+
+    const eventSource = new EventSource(
+      `http://fauques.freeboxos.fr:3000/matches/${matchId}/subscribe?token=${token}`
+    );
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.type === "NEW_TURN" || data.type === "TURN_ENDED") {
+        fetchGameState();
+      }
+    };
+
+    return () => eventSource.close();
   }, [matchId]);
 
   const handlePlayMove = async (move) => {
     try {
-      const response = await axios.post(`/matches/${matchId}/play`, { move });
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `/matches/${matchId}/turns/${gameState.turns.length + 1}`,
+        { move },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       setGameState(response.data);
     } catch (err) {
       setError("An error occurred. Please try again.");
