@@ -29,7 +29,7 @@ function GameChoice() {
           variant="outlined"
           color="secondary"
           sx={{ mt: 2 }}
-          onClick={() => navigate(`/watch/${matchId}`)} 
+          onClick={() => navigate(`/watch/${matchId}`)}
         >
           Watch Match
         </Button>

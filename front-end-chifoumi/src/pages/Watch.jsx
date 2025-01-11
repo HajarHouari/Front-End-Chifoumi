@@ -4,7 +4,7 @@ import { Button, Container, Typography, Box, List, ListItem, ListItemText } from
 import axios from "axios";
 
 function Watch() {
-  const { matchId } = useParams(); // Récupérer l'ID du match depuis l'URL
+  const { matchId } = useParams();
   const [gameState, setGameState] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [subscribed, setSubscribed] = useState(false);
