@@ -67,7 +67,7 @@ function Lobby() {
             <ListItem
               key={match._id}
               button
-              onClick={() => navigate(`/game/${match._id}`)} 
+              onClick={() => navigate(`/GameChoice/${match._id}`)} 
             >
               <ListItemText primary={`Match ID: ${match._id}`} />
             </ListItem>
