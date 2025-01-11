@@ -32,12 +32,15 @@ function Lobby() {
   const handleCreateMatch = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.post(
+      await axios.post(
         "/matches",
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      navigate(`/play/${response.data._id}`);
+      const response = await axios.get("/matches", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setMatches(response.data || []);
     } catch (err) {
       setError("Could not create match.");
     }
@@ -64,7 +67,7 @@ function Lobby() {
             <ListItem
               key={match._id}
               button
-              onClick={() => navigate(`/play/${match._id}`)}
+              onClick={() => navigate(`/game/${match._id}`)} 
             >
               <ListItemText primary={`Match ID: ${match._id}`} />
             </ListItem>
