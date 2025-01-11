@@ -27,7 +27,7 @@ function Lobby() {
   const handleCreateMatch = async () => {
     try {
       const response = await axios.post("/matches");
-      navigate(/play/${response.data.matchId});
+      navigate(`/play/${response.data.matchId}`);
     } catch (err) {
       setError("Could not create match.");
     }
@@ -49,9 +49,9 @@ function Lobby() {
             <ListItem
               key={match.id}
               button
-              onClick={() => navigate(/play/${match.id})}
+              onClick={() => navigate(`/play/${match.id}`)}
             >
-              <ListItemText primary={Match ID: ${match.id}} />
+              <ListItemText primary={`Match ID: ${match.id}`} />
             </ListItem>
           ))}
         </List>
