@@ -33,7 +33,7 @@ function Watch() {
     if (!token) return;
 
     const eventSource = new EventSource(
-      `http://fauques.freeboxos.fr:3000/matches/${matchId}/subscribe?token=${token}`
+      `http://fauques.freeboxos.fr:3000/matches/${matchId}/subscribe/${token}`,
     );
 
     eventSource.onmessage = (event) => {

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Container, Typography, Box, Tabs, Tab } from "@mui/material";
 import axios from "axios";
+import Cookies from "js-cookie"
 
 axios.defaults.baseURL = "http://fauques.freeboxos.fr:3000";
 
@@ -19,6 +20,7 @@ function Login() {
     try {
       const response = await axios.post("/login", { username, password });
       if (response.data.token) {
+        Cookies.set("token", response.data.token, {expires : 7, secure : true} )
         localStorage.setItem("token", response.data.token); 
         navigate("/lobby");
       } else {
