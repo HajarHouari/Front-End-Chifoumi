@@ -5,7 +5,7 @@ import axios from "axios";
 
 function Play() {
   const { matchId } = useParams();
-  const [gameState, setGameState] = useState(null);
+  const [gameState, setGameState] = useState({});
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -37,6 +37,7 @@ function Play() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setGameState(response.data);
+      console.log(gameState);
     } catch (err) {
       setError("An error occurred. Please try again.");
     }
@@ -53,18 +54,32 @@ function Play() {
             {error}
           </Typography>
         )}
+        {gameState.turns?.length >= 3 ? (
+          gameState.winner ? (
+            <Typography>The winner is : {gameState.winner.username}</Typography>
+          ) : (
+            <Typography>It's a tie!</Typography>
+          )
+        ) : null}
         {gameState ? (
           <Box>
             <Typography variant="body1">
-              Player 1: {gameState.user1.username} | Score:{" "}
-              {gameState.user1.score}
+              Player 1: {gameState.user1?.username} | Score:{" "}
+              {
+                gameState.turns?.filter((turn) => turn.winner === "user1")
+                  .length
+              }
             </Typography>
             <Typography variant="body1">
               Player 2: {gameState.user2?.username || "Waiting"} | Score:{" "}
-              {gameState.user2?.score || 0}
+              {
+                gameState.turns?.filter((turn) => turn.winner === "user2")
+                  .length
+              }
             </Typography>
             <Typography variant="body1">
-              Current Turn: {gameState.turns.filter((turn) => turn.winner).length + 1}
+              Current Turn:{" "}
+              {gameState.turns?.filter((turn) => turn.winner).length + 1}
             </Typography>
             <Button
               fullWidth
