@@ -48,7 +48,7 @@ function Lobby() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/login");
+    navigate("/");
   };
 
   return (
@@ -64,12 +64,24 @@ function Lobby() {
         )}
         <List>
           {matches.map((match) => (
-            <ListItem
-              key={match._id}
-              button
-              onClick={() => navigate(`/game/${match._id}`)} // Correction ici
-            >
+            <ListItem key={match._id}>
               <ListItemText primary={`Match ID: ${match._id}`} />
+              <Box sx={{ display: "flex", gap: 1 }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => navigate(`/play/${match._id}`)}
+                >
+                  Join Game
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => navigate(`/watch/${match._id}`)}
+                >
+                  Watch Game
+                </Button>
+              </Box>
             </ListItem>
           ))}
         </List>
