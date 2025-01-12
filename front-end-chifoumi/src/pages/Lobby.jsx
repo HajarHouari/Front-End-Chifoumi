@@ -63,7 +63,7 @@ function Lobby() {
           </Typography>
         )}
         <List>
-          {matches.map((match) => (
+          {matches.filter((match) => !match.winner).map((match) => (
             <ListItem key={match._id}>
               <ListItemText primary={`Match ID: ${match._id}`} />
               <Box sx={{ display: "flex", gap: 1 }}>

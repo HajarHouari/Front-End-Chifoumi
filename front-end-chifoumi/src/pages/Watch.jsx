@@ -75,11 +75,13 @@ function Watch() {
               {gameState.turns.map((turn, index) => (
                 <ListItem key={index}>
                   <ListItemText
-                    primary={`Turn ${index + 1}: ${turn.player1Move || "Waiting"} vs ${turn.player2Move || "Waiting"}`}
+                    primary={`Turn ${index + 1}: ${turn.user1 || "Waiting"} vs ${turn.user2 || "Waiting"}`}
                   />
                 </ListItem>
+                
               ))}
             </List>
+            {gameState.winner ? <Typography>The winner is : {gameState.winner.username}</Typography> : null}
           </Box>
         ) : (
           <Typography>Loading match data...</Typography>

@@ -30,8 +30,8 @@ function Play() {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        `/matches/${matchId}/turns/${gameState.turns.length + 1}`,
-        { move },
+        `/matches/${matchId}/turns/${gameState.turns.length}`,
+        { move:move },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setGameState(response.data);
