@@ -30,8 +30,10 @@ function Play() {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        `/matches/${matchId}/turns/${gameState.turns.length}`,
-        { move:move },
+        `/matches/${matchId}/turns/${
+          gameState.turns.filter((turn) => turn.winner).length + 1
+        }`,
+        { move: move },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setGameState(response.data);
@@ -54,13 +56,15 @@ function Play() {
         {gameState ? (
           <Box>
             <Typography variant="body1">
-              Player 1: {gameState.user1.username} | Score: {gameState.user1.score}
+              Player 1: {gameState.user1.username} | Score:{" "}
+              {gameState.user1.score}
             </Typography>
             <Typography variant="body1">
-              Player 2: {gameState.user2?.username || "Waiting"} | Score: {gameState.user2?.score || 0}
+              Player 2: {gameState.user2?.username || "Waiting"} | Score:{" "}
+              {gameState.user2?.score || 0}
             </Typography>
             <Typography variant="body1">
-              Current Turn: {gameState.turns.length + 1}
+              Current Turn: {gameState.turns.filter((turn) => turn.winner).length + 1}
             </Typography>
             <Button
               fullWidth
