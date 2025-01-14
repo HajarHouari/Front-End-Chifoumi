@@ -10,7 +10,10 @@ function Play() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) return;
+    if (!token) {
+      navigate("/");
+      return;
+    }
 
     const fetchGameState = async () => {
       try {
@@ -29,10 +32,7 @@ function Play() {
   const handlePlayMove = async (move) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.post(
-        `/matches/${matchId}/turns/${
-          gameState.turns.filter((turn) => turn.winner).length + 1
-        }`,
+      const response = await axios.post(`/matches/${matchId}/turns/${gameState.turns.filter((turn) => turn.winner).length + 1}`,
         { move: move },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -49,20 +49,15 @@ function Play() {
         <Typography variant="h4" component="h1" gutterBottom>
           Play Match
         </Typography>
+
         {error && (
           <Typography color="error" variant="body2">
             {error}
           </Typography>
         )}
-        {gameState.turns?.length >= 3 ? (
-          gameState.winner ? (
-            <Typography>The winner is : {gameState.winner.username}</Typography>
-          ) : (
-            <Typography>It's a tie!</Typography>
-          )
-        ) : null}
         {gameState ? (
           <Box>
+
             <Typography variant="body1">
               Player 1: {gameState.user1?.username} | Score:{" "}
               {
@@ -70,6 +65,7 @@ function Play() {
                   .length
               }
             </Typography>
+
             <Typography variant="body1">
               Player 2: {gameState.user2?.username || "Waiting"} | Score:{" "}
               {
@@ -77,10 +73,19 @@ function Play() {
                   .length
               }
             </Typography>
+
             <Typography variant="body1">
-              Current Turn:{" "}
-              {gameState.turns?.filter((turn) => turn.winner).length + 1}
+              {gameState.turns?.filter((turn) => turn.winner).length + 1 === 4 ? "Match ended" : "Current Turn" + gameState.turns?.filter((turn) => turn.winner).length + 1}
             </Typography>
+
+            {gameState.turns?.length >= 3 ? (
+              gameState.winner ? (
+                <Typography>The winner is : {gameState.winner.username}</Typography>
+              ) : (
+                <Typography>It's a tie!</Typography>
+              )
+            ) : null}
+
             <Button
               fullWidth
               variant="contained"

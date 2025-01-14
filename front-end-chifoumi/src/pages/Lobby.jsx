@@ -11,16 +11,14 @@ function Lobby() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      navigate("/login");
+      navigate("/");
       return;
     }
 
     const fetchMatches = async () => {
       try {
-        const response = await axios.get("/matches", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setMatches(response.data || []);
+        const response = await axios.get("/matches", {headers: { Authorization: `Bearer ${token}` },});
+        setMatches(response.data);
       } catch (err) {
         setError("Could not load matches.");
       }
@@ -32,15 +30,9 @@ function Lobby() {
   const handleCreateMatch = async () => {
     try {
       const token = localStorage.getItem("token");
-      await axios.post(
-        "/matches",
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      const response = await axios.get("/matches", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setMatches(response.data || []);
+      await axios.post("/matches" , {} , { headers: { Authorization: `Bearer ${token}` } });
+      const response = await axios.get("/matches", {headers: { Authorization: `Bearer ${token}` },});
+      setMatches(response.data);
     } catch (err) {
       setError("Could not create match.");
     }
@@ -54,16 +46,19 @@ function Lobby() {
   return (
     <Container maxWidth="sm">
       <Box sx={{ mt: 8 }}>
+
         <Typography variant="h4" component="h1" gutterBottom>
           Lobby
         </Typography>
+
         {error && (
           <Typography color="error" variant="body2">
             {error}
           </Typography>
         )}
+
         <List>
-          {matches.filter((match) => !match.winner).map((match) => (
+          {matches.filter((match) => !match.winner && match.turns.length <=2).map((match) => (
             <ListItem key={match._id}>
               <ListItemText primary={`Match ID: ${match._id}`} />
               <Box sx={{ display: "flex", gap: 1 }}>
@@ -85,6 +80,7 @@ function Lobby() {
             </ListItem>
           ))}
         </List>
+        
         <Button
           fullWidth
           variant="contained"
