@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Button, Container, Typography, Box, List, ListItem, ListItemText } from "@mui/material";
+import {
+  Button,
+  Container,
+  Typography,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
 import axios from "axios";
 
 function Watch() {
@@ -33,7 +41,7 @@ function Watch() {
     if (!token) return;
 
     const eventSource = new EventSource(
-      `http://fauques.freeboxos.fr:3000/matches/${matchId}/subscribe/${token}`,
+      `http://fauques.freeboxos.fr:3000/matches/${matchId}/subscribe/${token}`
     );
 
     eventSource.onmessage = (event) => {
@@ -52,7 +60,12 @@ function Watch() {
   return (
     <Container maxWidth="sm">
       <Box sx={{ mt: 8 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography
+          sx={{ fontFamily: "Montserrat", textTransform: "uppercase" }}
+          variant="h4"
+          component="h1"
+          gutterBottom
+        >
           Watch Match
         </Typography>
         {error && (
@@ -62,26 +75,46 @@ function Watch() {
         )}
         {gameState ? (
           <Box>
-            <Typography variant="body1">
-              Player 1: {gameState.user1.username} | Score: {gameState.user1.score}
+            <Typography sx={{ fontFamily: "Poppins" }} variant="body1">
+              Player 1: {gameState.user1.username} | Score:{" "}
+              {gameState.user1.score}
             </Typography>
-            <Typography variant="body1">
-              Player 2: {gameState.user2?.username || "Waiting"} | Score: {gameState.user2?.score || 0}
+            <Typography sx={{ fontFamily: "Poppins" }} variant="body1">
+              Player 2: {gameState.user2?.username || "Waiting"} | Score:{" "}
+              {gameState.user2?.score || 0}
             </Typography>
-            <Typography variant="body1">
+            <Typography sx={{ fontFamily: "Poppins" }} variant="body1">
               Current Turn: {gameState.turns.length}
             </Typography>
             <List>
               {gameState.turns.map((turn, index) => (
                 <ListItem key={index}>
                   <ListItemText
-                    primary={`Turn ${index + 1}: ${turn.user1 || "Waiting"} vs ${turn.user2 || "Waiting"}`}
+                    primary={`Turn ${index + 1}:`}
+                    secondary={`${turn.user1 || "Waiting"} vs ${
+                      turn.user2 || "Waiting"
+                    }`}
+                    sx={{
+                      ".MuiListItemText-primary": {
+                        color: "#e7e7e7",
+                        fontSize: "16px",
+                        fontFamily: "Montserrat",
+                      },
+                      ".MuiListItemText-secondary": {
+                        color: "#006241",
+                        fontSize: "16px",
+                        fontFamily: "Poppins",
+                      },
+                    }}
                   />
                 </ListItem>
-                
               ))}
             </List>
-            {gameState.winner ? <Typography>The winner is : {gameState.winner.username}</Typography> : null}
+            {gameState.winner ? (
+              <Typography sx={{ fontFamily: "Poppins" }}>
+                The winner is : {gameState.winner.username}
+              </Typography>
+            ) : null}
           </Box>
         ) : (
           <Typography>Loading match data...</Typography>
@@ -91,18 +124,34 @@ function Watch() {
             fullWidth
             variant="contained"
             color="primary"
-            sx={{ mt: 2 }}
+            sx={{
+              transition: "all 0.3s",
+              mt: 2,
+              maxWidth: "250px",
+              fontFamily: "Montserrat",
+              padding: "8px 16px !important",
+              background: "#006241",
+              color: "#e7e7e7",
+              fontSize: "16px",
+              "&:hover": {
+                background: "#00754A",
+                boxShadow:
+                  "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+              },
+            }}
             onClick={handleSubscribe}
           >
             Subscribe to Match Notifications
           </Button>
         ) : (
-          <Typography variant="body2" sx={{ mt: 2 }}>
+          <Typography variant="body2" sx={{ fontFamily: "Montserrat" }}>
             Subscribed to match updates.
           </Typography>
         )}
         <Box sx={{ mt: 4 }}>
-          <Typography variant="h6">Notifications:</Typography>
+          <Typography sx={{ fontFamily: "Montserrat" }} variant="h6">
+            Notifications :{" "}
+          </Typography>
           <List>
             {notifications.map((notif, index) => (
               <ListItem key={index}>
