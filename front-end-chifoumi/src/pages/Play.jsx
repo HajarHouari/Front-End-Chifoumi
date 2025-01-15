@@ -32,10 +32,16 @@ function Play() {
   const handlePlayMove = async (move) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.post(`/matches/${matchId}/turns/${gameState.turns.filter((turn) => turn.winner).length + 1}`,
+      await axios.post(
+        `/matches/${matchId}/turns/${
+          gameState.turns.filter((turn) => turn.winner).length + 1
+        }`,
         { move: move },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      const response = await axios.get(`/matches/${matchId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setGameState(response.data);
       console.log(gameState);
     } catch (err) {
@@ -57,7 +63,6 @@ function Play() {
         )}
         {gameState ? (
           <Box>
-
             <Typography variant="body1">
               Player 1: {gameState.user1?.username} | Score:{" "}
               {
@@ -75,12 +80,17 @@ function Play() {
             </Typography>
 
             <Typography variant="body1">
-              {gameState.turns?.filter((turn) => turn.winner).length + 1 === 4 ? "Match ended" : "Current Turn" + gameState.turns?.filter((turn) => turn.winner).length + 1}
+              {gameState.turns?.filter((turn) => turn.winner).length + 1 === 4
+                ? "Match ended"
+                : "Current Turn " +
+                  Number(gameState.turns?.filter((turn) => turn.winner).length + 1)}
             </Typography>
 
             {gameState.turns?.length >= 3 ? (
               gameState.winner ? (
-                <Typography>The winner is : {gameState.winner.username}</Typography>
+                <Typography>
+                  The winner is : {gameState.winner.username}
+                </Typography>
               ) : (
                 <Typography>It's a tie!</Typography>
               )
