@@ -32,10 +32,7 @@ function Play() {
   const handlePlayMove = async (move) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.post(
-        `/matches/${matchId}/turns/${
-          gameState.turns.filter((turn) => turn.winner).length + 1
-        }`,
+      await axios.post(`/matches/${matchId}/turns/${gameState.turns.filter((turn) => turn.winner).length + 1}`,
         { move: move },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -51,43 +48,39 @@ function Play() {
 
   return (
     <Container maxWidth="sm">
-      <Box sx={{ mt: 8 }}>
+      <Box sx={{ mt: 6 }}>
         <Typography
-          variant="h4"
-          component="h1"
-          sx={{ fontFamily: "Montserrat", textTransform: "uppercase" }}
-          gutterBottom
+          sx={{ fontFamily: "'Jersey 15'", textTransform: "uppercase" }}
+          variant="h2"
         >
-          Play Match
+          PLAY MATCH
         </Typography>
 
         {error && (
-          <Typography color="error" variant="body2">
+          <Typography color="error">
             {error}
           </Typography>
         )}
         {gameState ? (
           <Box>
-            <Typography sx={{ fontFamily: "Poppins" }} variant="body1">
+            <Typography sx={{ fontFamily: "Poppins" }}>
               Player 1: {gameState.user1?.username} | Score:{" "}
               {
-                gameState.turns?.filter((turn) => turn.winner === "user1")
-                  .length
+                gameState.turns?.filter((turn) => turn.winner === "user1").length
               }
             </Typography>
 
-            <Typography sx={{ fontFamily: "Poppins" }} variant="body1">
+            <Typography sx={{ fontFamily: "Poppins" }}>
               Player 2: {gameState.user2?.username || "Waiting"} | Score:{" "}
               {
-                gameState.turns?.filter((turn) => turn.winner === "user2")
-                  .length
+                gameState.turns?.filter((turn) => turn.winner === "user2").length
               }
             </Typography>
 
-            <Typography sx={{ fontFamily: "Poppins" }} variant="body1">
+            <Typography sx={{ fontFamily: "Poppins" }}>
               {gameState.turns?.filter((turn) => turn.winner).length + 1 === 4
                 ? "Match ended"
-                : "Current Turn " +
+                : "Current Turn : " +
                   Number(
                     gameState.turns?.filter((turn) => turn.winner).length + 1
                   )}
@@ -111,18 +104,15 @@ function Play() {
                 color="primary"
                 onClick={() => handlePlayMove("rock")}
                 sx={{
-                  transition: "all 0.3s",
                   mt: 2,
                   maxWidth: "150px",
                   fontFamily: "Montserrat",
-                  padding: "16px 16px !important",
+                  padding: "16px 16px",
                   background: "#006241",
                   color: "#e7e7e7",
                   fontSize: "16px",
                   "&:hover": {
-                    background: "#00754A",
-                    boxShadow:
-                      "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+                    background: "#00754A"
                   },
                 }}
               >
@@ -134,18 +124,15 @@ function Play() {
                 color="primary"
                 onClick={() => handlePlayMove("paper")}
                 sx={{
-                  transition: "all 0.3s",
                   mt: 2,
                   maxWidth: "150px",
                   fontFamily: "Montserrat",
-                  padding: "16px 16px !important",
+                  padding: "16px 16px ",
                   background: "#006241",
                   color: "#e7e7e7",
                   fontSize: "16px",
                   "&:hover": {
-                    background: "#00754A",
-                    boxShadow:
-                      "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+                    background: "#00754A"
                   },
                 }}
               >
@@ -156,18 +143,15 @@ function Play() {
                 variant="contained"
                 color="primary"
                 sx={{
-                  transition: "all 0.3s",
                   mt: 2,
                   maxWidth: "150px",
                   fontFamily: "Montserrat",
-                  padding: "8px 16px !important",
+                  padding: "8px 16px",
                   background: "#006241",
                   color: "#e7e7e7",
                   fontSize: "16px",
                   "&:hover": {
-                    background: "#00754A",
-                    boxShadow:
-                      "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+                    background: "#00754A"
                   },
                 }}
                 onClick={() => handlePlayMove("scissors")}

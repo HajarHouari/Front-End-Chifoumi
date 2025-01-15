@@ -64,9 +64,8 @@ function Login() {
     >
       <Box sx={{ mt: 8 }}>
         <Typography
-          sx={{ fontFamily: "Montserrat", textTransform: "uppercase" }}
-          variant="h4"
-          component="h1"
+          sx={{ fontFamily: "'Jersey 15'", textTransform: "uppercase" }}
+          variant="h2"
           gutterBottom
         >
           {tabIndex === 0 ? "Login" : "Register"}
@@ -94,7 +93,7 @@ function Login() {
             sx={{
               fontFamily: "Montserrat",
               color: "#006241",
-              "&.Mui-selected": { color: "#00754A" },
+              "&.Mui-selected": { color: "#00754A"},
             }}
             label="Register"
           />
@@ -128,17 +127,14 @@ function Login() {
             type="submit"
             color="primary"
             sx={{
-              transition: "all 0.3s",
               mt: 2,
               fontFamily: "Montserrat",
-              padding: "16px 16px !important",
+              padding: "16px 16px ",
               background: "#006241",
               color: "#e7e7e7",
               fontSize: "16px",
               "&:hover": {
-                background: "#00754A",
-                boxShadow:
-                  "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+                background: "#00754A"
               },
             }}
           >

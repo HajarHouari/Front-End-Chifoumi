@@ -61,29 +61,28 @@ function Watch() {
     <Container maxWidth="sm">
       <Box sx={{ mt: 8 }}>
         <Typography
-          sx={{ fontFamily: "Montserrat", textTransform: "uppercase" }}
-          variant="h4"
+          sx={{ fontFamily: "'Jersey 15'", mb : 2}}
+          variant="h1"
           component="h1"
-          gutterBottom
         >
-          Watch Match
+          WATCH MATCH
         </Typography>
         {error && (
-          <Typography color="error" variant="body2">
+          <Typography color="error" >
             {error}
           </Typography>
         )}
         {gameState ? (
           <Box>
-            <Typography sx={{ fontFamily: "Poppins" }} variant="body1">
+            <Typography sx={{ fontFamily: "Poppins" }}>
               Player 1: {gameState.user1.username} | Score:{" "}
-              {gameState.user1.score}
+              {gameState.user1?.score || 0}
             </Typography>
-            <Typography sx={{ fontFamily: "Poppins" }} variant="body1">
+            <Typography sx={{ fontFamily: "Poppins", mt : 1 }}>
               Player 2: {gameState.user2?.username || "Waiting"} | Score:{" "}
               {gameState.user2?.score || 0}
             </Typography>
-            <Typography sx={{ fontFamily: "Poppins" }} variant="body1">
+            <Typography sx={{ fontFamily: "Poppins", mt : 3 }}>
               Current Turn: {gameState.turns.length}
             </Typography>
             <List>
@@ -91,9 +90,7 @@ function Watch() {
                 <ListItem key={index}>
                   <ListItemText
                     primary={`Turn ${index + 1}:`}
-                    secondary={`${turn.user1 || "Waiting"} vs ${
-                      turn.user2 || "Waiting"
-                    }`}
+                    secondary={`${turn.user1 || "Waiting"} vs ${turn.user2 || "Waiting"}`}
                     sx={{
                       ".MuiListItemText-primary": {
                         color: "#e7e7e7",
@@ -125,18 +122,15 @@ function Watch() {
             variant="contained"
             color="primary"
             sx={{
-              transition: "all 0.3s",
               mt: 2,
               maxWidth: "250px",
               fontFamily: "Montserrat",
-              padding: "8px 16px !important",
+              padding: "8px 16px",
               background: "#006241",
               color: "#e7e7e7",
               fontSize: "16px",
               "&:hover": {
-                background: "#00754A",
-                boxShadow:
-                  "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+                background: "#00754A"
               },
             }}
             onClick={handleSubscribe}
@@ -149,7 +143,7 @@ function Watch() {
           </Typography>
         )}
         <Box sx={{ mt: 4 }}>
-          <Typography sx={{ fontFamily: "Montserrat" }} variant="h6">
+          <Typography sx={{ fontFamily: "Montserrat" }} variant="h5">
             Notifications :{" "}
           </Typography>
           <List>

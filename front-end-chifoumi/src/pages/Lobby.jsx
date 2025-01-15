@@ -63,8 +63,8 @@ function Lobby() {
     <Container>
       <Box sx={{ mt: 8 }}>
         <Typography
-          sx={{ fontFamily: "Montserrat", textTransform: "uppercase" }}
-          variant="h4"
+          sx={{ fontFamily: "'Jersey 15'", textTransform: "uppercase" }}
+          variant="h2"
           component="h1"
           gutterBottom
         >
@@ -79,8 +79,7 @@ function Lobby() {
 
         <List>
           {matches
-            .filter((match) => !match.winner && match.turns.length <= 2)
-            .map((match) => (
+            .filter((match) => !match.winner && match.turns.length <= 2).map((match) => (
               <ListItem key={match._id}>
                 <ListItemText
                   sx={{
@@ -103,17 +102,14 @@ function Lobby() {
                     color="primary"
                     onClick={() => navigate(`/play/${match._id}`)}
                     sx={{
-                      transition: "all 0.3s",
                       mt: 2,
                       fontFamily: "Montserrat",
-                      padding: "4px 8px !important",
+                      padding: "4px 8px",
                       background: "#006241",
                       color: "#e7e7e7",
                       fontSize: "16px",
                       "&:hover": {
-                        background: "#00754A",
-                        boxShadow:
-                          "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+                        background: "#00754A"
                       },
                     }}
                   >
@@ -124,18 +120,14 @@ function Lobby() {
                     color="secondary"
                     onClick={() => navigate(`/watch/${match._id}`)}
                     sx={{
-                      transition: "all 0.3s",
                       mt: 2,
                       fontFamily: "Montserrat",
-                      padding: "4px 8px !important",
-                      background: "transparent",
+                      padding: "4px 8px",
                       border: "1px solid #e7e7e7",
                       color: "#e7e7e7",
                       fontSize: "16px",
                       "&:hover": {
                         background: "#e7e7e7",
-                        boxShadow:
-                          "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
                         color: "#00754A",
                       },
                     }}
@@ -150,9 +142,7 @@ function Lobby() {
           sx={{
             display: "flex",
             flexDirection: "column",
-            gap: "4px",
-            alignItems: "center",
-            mt: "16px",
+            alignItems: "center"
           }}
         >
           <Button
@@ -160,10 +150,8 @@ function Lobby() {
             variant="contained"
             color="primary"
             sx={{
-              transition: "all 0.3s",
-              mt: 2,
               fontFamily: "Montserrat",
-              padding: "16px 16px !important",
+              padding: "16px 16px",
               maxWidth: "250px",
               background: "#006241",
               borderRadius: "16px",
@@ -171,42 +159,77 @@ function Lobby() {
               fontSize: "16px",
               "&:hover": {
                 background: "#00754A",
-                boxShadow:
-                  "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
               },
             }}
             onClick={handleCreateMatch}
           >
             Create New Match
           </Button>
-          <Button
-            fullWidth
-            variant="outlined"
-            color="secondary"
-            sx={{
-              transition: "all 0.3s",
-              mt: 2,
-              fontFamily: "Montserrat",
-              padding: "16px 16px !important",
-              background: "transparent",
-              maxWidth: "250px",
-              borderRadius: "16px",
-              border: "1px solid #e7e7e7",
-              color: "#e7e7e7",
-              fontSize: "16px",
-              "&:hover": {
-                background: "#e7e7e7",
-                boxShadow:
-                  "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
-                color: "#00754A",
-              },
-            }}
-            onClick={handleLogout}
-          >
-            Logout
-          </Button>
         </Box>
       </Box>
+      <Box sx={{ mt: 15 }}>
+        <Typography
+          sx={{ fontFamily: "'Jersey 15'", textTransform: "uppercase" }}
+          variant="h2"
+        >
+          GAME HISTORY
+        </Typography>
+        <List>
+          {matches.filter((match) => match.winner).map((match) => (
+            <ListItem
+              key={match._id}
+              sx={{
+                "&:hover": {
+                  background: "#006241",
+                  color: "#00754A",
+                  cursor: "pointer",
+                },
+              }}
+              onClick={() => navigate(`/watch/${match._id}`)}
+            >
+              <ListItemText
+                primary={`Match ID: ${match._id}`}
+                secondary={`Winner: ${match.winner.username}`}
+                sx={{
+                  ".MuiListItemText-primary": {
+                    fontFamily: "Montserrat",
+                    color: "#006241",
+                    fontSize: "14px",
+                  },
+                  ".MuiListItemText-secondary": {
+                    fontFamily: "Poppins",
+                    color: "#e7e7e7",
+                    fontSize: "14px",
+                  },
+                }}
+              />
+            </ListItem>
+          ))}
+        </List>
+        <Button
+          fullWidth
+          variant="outlined"
+          color="secondary"
+          sx={{
+            fontFamily: "Montserrat",
+            padding: "16px 16px",
+            maxWidth: "250px",
+            borderRadius: "16px",
+            border: "1px solid #e7e7e7",
+            color: "#e7e7e7",
+            mt : 5,
+            fontSize: "16px",
+            "&:hover": {
+              background: "#e7e7e7",
+              color: "#00754A",
+            },
+          }}
+          onClick={handleLogout}
+        >
+          Logout
+        </Button>
+      </Box>
+
     </Container>
   );
 }
